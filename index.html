@@ -41,6 +41,13 @@
       transition: opacity 0.6s ease, visibility 0.6s ease;
     }
 
+    #loader-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+    }
+
     #loading-screen img {
       width: 140px;
       filter: drop-shadow(0 0 20px var(--green-glow));
@@ -56,6 +63,25 @@
     #loading-screen.hide {
       opacity: 0;
       visibility: hidden;
+    }
+
+    /* PROGRESS BAR */
+    #progress-bar {
+      width: 220px;
+      height: 10px;
+      background: #0f0f0f;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--green-glow);
+      box-shadow: 0 0 12px rgba(0, 255, 120, 0.4);
+    }
+
+    #progress-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--green);
+      box-shadow: 0 0 12px var(--green-glow);
+      transition: width 0.2s linear;
     }
 
     /* MAIN CONTAINER TILT */
@@ -175,7 +201,12 @@
 
   <!-- LOADING SCREEN -->
   <div id="loading-screen">
-    <img src="https://cdn.discordapp.com/attachments/1438326785178603620/1467588713360920881/Brushwood_Logo_Glow.png?ex=698633ff&is=6984e27f&hm=ae66269dc13004f8e4cabba4438760197f6abde72e1d8ccf7272bda22a3c98f7" alt="Loading">
+    <div id="loader-content">
+      <img src="https://cdn.discordapp.com/attachments/1438326785178603620/1467588713360920881/Brushwood_Logo_Glow.png?ex=698633ff&is=6984e27f&hm=ae66269dc13004f8e4cabba4438760197f6abde72e1d8ccf7272bda22a3c98f7" alt="Loading">
+      <div id="progress-bar">
+        <div id="progress-fill"></div>
+      </div>
+    </div>
   </div>
 
   <!-- PARTICLES -->
@@ -207,12 +238,36 @@
   </div>
 
   <script>
-    /* LOADING SCREEN FADE OUT */
+    /* LOADING SCREEN WITH PROGRESS BAR — 3 second minimum */
     window.addEventListener("load", () => {
       const loader = document.getElementById("loading-screen");
-      setTimeout(() => {
-        loader.classList.add("hide");
-      }, 300);
+      const fill = document.getElementById("progress-fill");
+
+      const MIN_TIME = 3000; 
+      const start = performance.now();
+
+      // Animate progress bar over 3 seconds
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 1;
+        fill.style.width = progress + "%";
+
+        if (progress >= 100) {
+          clearInterval(interval);
+        }
+      }, MIN_TIME / 100);
+
+      function hideLoader() {
+        const elapsed = performance.now() - start;
+
+        if (elapsed >= MIN_TIME) {
+          loader.classList.add("hide");
+        } else {
+          setTimeout(hideLoader, MIN_TIME - elapsed);
+        }
+      }
+
+      hideLoader();
     });
 
     /* COUNTDOWN */
@@ -279,8 +334,8 @@
       const x = (e.clientX / window.innerWidth - 0.5) * 2;
       const y = (e.clientY / window.innerHeight - 0.5) * 2;
 
-      const tiltX = y * -3;
-      const tiltY = x * 3;
+      const tiltX = y * -5;
+      const tiltY = x * 5;
 
       const container = document.getElementById("main-container");
       container.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
