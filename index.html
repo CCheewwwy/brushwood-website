@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Brushwood Roleplay</title>
 
+  <!-- Favicon (Tab Icon) -->
+  <link rel="icon" type="image/png" href="https://cdn.discordapp.com/attachments/1438326785178603620/1467588713360920881/Brushwood_Logo_Glow.png?ex=698633ff&is=6984e27f&hm=ae66269dc13004f8e4cabba4438760197f6abde72e1d8ccf7272bda22a3c98f7">
+
   <style>
     :root {
       --black: #0a0a0a;
@@ -21,6 +24,15 @@
       background: var(--black);
       color: var(--text-light);
       overflow-x: hidden;
+    }
+
+    /* MAIN CONTAINER TILT */
+    #main-container {
+      transition: transform 0.1s ease-out;
+      will-change: transform;
+      transform-style: preserve-3d;
+      position: relative;
+      z-index: 5;
     }
 
     /* PARTICLE BACKGROUND */
@@ -134,25 +146,30 @@
   <!-- Particle Background -->
   <canvas id="particles"></canvas>
 
-  <header>
-    <img 
-      src="https://cdn.discordapp.com/attachments/1438326785178603620/1467588713360920881/Brushwood_Logo_Glow.png?ex=698633ff&is=6984e27f&hm=ae66269dc13004f8e4cabba4438760197f6abde72e1d8ccf7272bda22a3c98f7" 
-      alt="Brushwood Roleplay Logo"
-    />
+  <!-- MAIN CONTAINER (tilts with mouse movement) -->
+  <div id="main-container">
 
-    <nav>
-      <a href="#">Server Info</a>
-      <a href="#">Shop</a>
-      <a href="#">Rules</a>
-      <a href="#">Support</a>
-    </nav>
-  </header>
+    <header>
+      <img 
+        src="https://cdn.discordapp.com/attachments/1438326785178603620/1467588713360920881/Brushwood_Logo_Glow.png?ex=698633ff&is=6984e27f&hm=ae66269dc13004f8e4cabba4438760197f6abde72e1d8ccf7272bda22a3c98f7" 
+        alt="Brushwood Roleplay Logo"
+      />
 
-  <section class="hero">
-    <h1>Brushwood Roleplay</h1>
-    <p>Coming April 2026</p>
-    <div id="countdown"></div>
-  </section>
+      <nav>
+        <a href="#">Server Info</a>
+        <a href="#">Shop</a>
+        <a href="#">Rules</a>
+        <a href="#">Support</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1>Brushwood Roleplay</h1>
+      <p>Coming April 2026</p>
+      <div id="countdown"></div>
+    </section>
+
+  </div> <!-- END MAIN CONTAINER -->
 
   <script>
     /* COUNTDOWN TIMER */
@@ -217,6 +234,18 @@
     }
 
     animateParticles();
+
+    /* MAIN CONTAINER TILT EFFECT */
+    document.addEventListener("mousemove", (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2;
+      const y = (e.clientY / window.innerHeight - 0.5) * 2;
+
+      const tiltX = y * -3;
+      const tiltY = x * 3;
+
+      const container = document.getElementById("main-container");
+      container.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+    });
   </script>
 
 </body>
