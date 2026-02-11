@@ -6,7 +6,7 @@
   <title>Brushwood Roleplay</title>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="https://cdn.discordapp.com/attachments/1438326785178603620/1467588713360920881/Brushwood_Logo_Glow.png?ex=698633ff&is=6984e27f&hm=ae66269dc13004f8e4cabba4438760197f6abde72e1d8ccf7272bda22a3c98f7">
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/CCheewwwy/brushwood-website/main/Brushwood_Logo_Glow.png">
 
   <style>
     :root {
@@ -202,7 +202,7 @@
   <!-- LOADING SCREEN -->
   <div id="loading-screen">
     <div id="loader-content">
-      <img src="https://cdn.discordapp.com/attachments/1438326785178603620/1467588713360920881/Brushwood_Logo_Glow.png?ex=698633ff&is=6984e27f&hm=ae66269dc13004f8e4cabba4438760197f6abde72e1d8ccf7272bda22a3c98f7" alt="Loading">
+      <img src="https://raw.githubusercontent.com/CCheewwwy/brushwood-website/main/Brushwood_Logo_Glow.png" alt="Loading">
       <div id="progress-bar">
         <div id="progress-fill"></div>
       </div>
@@ -217,7 +217,7 @@
 
     <header>
       <img 
-        src="https://cdn.discordapp.com/attachments/1438326785178603620/1467588713360920881/Brushwood_Logo_Glow.png?ex=698633ff&is=6984e27f&hm=ae66269dc13004f8e4cabba4438760197f6abde72e1d8ccf7272bda22a3c98f7" 
+        src="https://raw.githubusercontent.com/CCheewwwy/brushwood-website/main/Brushwood_Logo_Glow.png"
         alt="Brushwood Roleplay Logo"
       />
 
@@ -340,6 +340,22 @@
       const container = document.getElementById("main-container");
       container.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
     });
+
+    /* DEVTOOLS DETECTION + DMCA REDIRECT */
+    (function() {
+      let devtoolsOpen = false;
+      const threshold = 160;
+
+      setInterval(() => {
+        const widthDiff = window.outerWidth - window.innerWidth > threshold;
+        const heightDiff = window.outerHeight - window.innerHeight > threshold;
+
+        if ((widthDiff || heightDiff) && !devtoolsOpen) {
+          devtoolsOpen = true;
+          window.location.href = "/dmca.html";
+        }
+      }, 500);
+    })();
   </script>
 
 </body>
